@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("com.google.guava:guava:28.1-jre")
+
 }
 
 compileKotlin {
