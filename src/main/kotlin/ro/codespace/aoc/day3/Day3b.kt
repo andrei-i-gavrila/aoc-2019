@@ -17,7 +17,7 @@ fun main() {
             .reversed().toMap()
 
     println(intersectionPoints.map {
-        count1[it]!! + count2[it]!!
+        count1.getValue(it) + count2.getValue(it)
     }.min())
 
 }
