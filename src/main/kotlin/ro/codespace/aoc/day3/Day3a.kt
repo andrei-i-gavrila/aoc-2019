@@ -1,8 +1,7 @@
 package ro.codespace.aoc.day3
 
-import com.google.common.io.Resources
 import ro.codespace.aoc.Vector2
-import ro.codespace.aoc.read
+import ro.codespace.aoc.day
 
 
 fun makeMoves(moves: List<Pair<String, Int>>): List<Vector2> {
@@ -49,7 +48,7 @@ fun transformMoves(line: String): List<Pair<String, Int>> {
 
 fun main() {
 
-    val (moves1, moves2) = read("day3.txt").readLines().map { transformMoves(it) }.map { makeMoves(it) }
+    val (moves1, moves2) = day(3).readLines().map { transformMoves(it) }.map { makeMoves(it) }
 
 
     println(moves1.intersect(moves2).map {

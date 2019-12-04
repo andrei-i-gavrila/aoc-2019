@@ -1,5 +1,7 @@
 package ro.codespace.aoc.day2
 
+import ro.codespace.aoc.day
+
 fun runProgram(program: List<Int>, noun: Int, verb: Int): Int {
     val runnableProgram = program.toMutableList()
     runnableProgram[1] = noun
@@ -13,7 +15,7 @@ fun runProgram(program: List<Int>, noun: Int, verb: Int): Int {
 }
 
 fun main() {
-    val program = readLine()!!.split(",").map { it.toInt() }
+    val program = day(2).readLine()!!.split(",").map { it.toInt() }
 
     val max = program.size
     for (noun in 0 until max) {

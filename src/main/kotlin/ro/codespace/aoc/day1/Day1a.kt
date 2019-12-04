@@ -1,7 +1,7 @@
 package ro.codespace.aoc.day1
 
-import ro.codespace.aoc.readInt
+import ro.codespace.aoc.day
 
 fun main() {
-    println(generateSequence { readInt() }.sumBy { it / 3 - 2 })
+    println(day(1).readLines().map { it.toInt() }.sumBy { it / 3 - 2 })
 }

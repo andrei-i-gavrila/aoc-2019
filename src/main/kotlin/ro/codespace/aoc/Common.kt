@@ -1,7 +1,6 @@
 package ro.codespace.aoc
 
 import com.google.common.io.Resources
-import java.io.BufferedReader
 import kotlin.math.abs
 
 fun readInt() = readLine()?.toIntOrNull()
@@ -13,6 +12,6 @@ data class Vector2(val x: Int, val y: Int) {
     val manhattanScale get() = abs(x) + abs(y)
 }
 
-fun read(file: String): BufferedReader {
-    return Resources.getResource(file).openStream().bufferedReader()
-}
+fun read(file: String) = Resources.getResource(file).openStream().bufferedReader()
+
+fun day(number: Int) = read("day$number.txt")

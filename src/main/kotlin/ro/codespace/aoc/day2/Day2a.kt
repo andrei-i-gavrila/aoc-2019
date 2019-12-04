@@ -1,5 +1,7 @@
 package ro.codespace.aoc.day2
 
+import ro.codespace.aoc.day
+
 fun solveOpcode(position: Int, program: MutableList<Int>): Int {
     when (program[position]) {
         1 -> program[program[position + 3]] = program[program[position + 1]] + program[program[position + 2]]
@@ -11,7 +13,7 @@ fun solveOpcode(position: Int, program: MutableList<Int>): Int {
 }
 
 fun main() {
-    val program = readLine()!!.split(",").map { it.toInt() }.toMutableList()
+    val program = day(2).readLine()!!.split(",").map { it.toInt() }.toMutableList()
     program[1] = 12
     program[2] = 2
     var ip = 0

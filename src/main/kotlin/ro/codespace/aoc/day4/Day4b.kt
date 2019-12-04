@@ -1,5 +1,7 @@
 package ro.codespace.aoc.day4
 
+import ro.codespace.aoc.day
+
 
 fun canBePasswordb(pass: String): Boolean {
     return pass.zipWithNext().all { it.first <= it.second } && (1..9).any {
@@ -9,9 +11,7 @@ fun canBePasswordb(pass: String): Boolean {
 
 
 fun main() {
-    val input = "231832-767346"
-
-    val (left, right) = input.split("-").map { it.toInt() }
+    val (left, right) = day(4).readLine().split("-").map { it.toInt() }
 
     println((left..right).count { canBePasswordb(it.toString()) })
 

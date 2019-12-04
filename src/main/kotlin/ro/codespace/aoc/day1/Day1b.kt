@@ -1,6 +1,6 @@
 package ro.codespace.aoc.day1
 
-import ro.codespace.aoc.readInt
+import ro.codespace.aoc.day
 
 fun calcFuel(mass: Int): Int {
     if (mass / 3 - 2 <= 0) return 0
@@ -8,5 +8,5 @@ fun calcFuel(mass: Int): Int {
 }
 
 fun main() {
-    println(generateSequence { readInt() }.sumBy { calcFuel(it) })
+    println(day(1).readLines().map { it.toInt() }.sumBy { calcFuel(it) })
 }
