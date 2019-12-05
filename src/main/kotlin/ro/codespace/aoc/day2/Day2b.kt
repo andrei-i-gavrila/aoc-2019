@@ -1,17 +1,13 @@
 package ro.codespace.aoc.day2
 
+import ro.codespace.aoc.Program
 import ro.codespace.aoc.day
 
 fun runProgram(program: List<Int>, noun: Int, verb: Int): Int {
     val runnableProgram = program.toMutableList()
     runnableProgram[1] = noun
     runnableProgram[2] = verb
-    var ip = 0
-    while (true) {
-        ip = solveOpcode(ip, runnableProgram)
-        if (runnableProgram[ip] == 99) break
-    }
-    return runnableProgram[0]
+    return Program(runnableProgram)()
 }
 
 fun main() {
