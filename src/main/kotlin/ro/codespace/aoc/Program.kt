@@ -1,7 +1,18 @@
 package ro.codespace.aoc
 
-class Program(code: List<Int>, private val reader: () -> Int = { 0 }) {
+import com.sun.jmx.remote.internal.ArrayQueue
+import java.util.*
+import java.util.concurrent.BlockingDeque
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.function.Supplier
+
+class Program(
+    code: List<Int>,
+    private val reader: () -> Int = { 0 },
+    private val outputFunction: (Int) -> Unit = { println("Output: $it") }
+) {
     private val runCode = code.toMutableList()
+    var lastOutput = 0
 
     fun solve(): Int {
         var pos = 0
@@ -45,7 +56,8 @@ class Program(code: List<Int>, private val reader: () -> Int = { 0 }) {
                     jump(2)
                 }
                 4 -> { // print
-                    println("Output: ${first.value}")
+                    lastOutput = first.value
+                    outputFunction(first.value)
                     jump(2)
                 }
                 5 -> { // jump if true
@@ -78,5 +90,17 @@ class Program(code: List<Int>, private val reader: () -> Int = { 0 }) {
         fun writeTo(value: Int) {
             runCode[runCode[position]] = value
         }
+    }
+}
+
+class InputReaderProvider : () -> Int {
+    private val inputQueue: BlockingDeque<Int> = LinkedBlockingDeque()
+
+    fun send(number: Int) {
+        inputQueue.offer(number)
+    }
+
+    override operator fun invoke(): Int {
+        return inputQueue.take()
     }
 }
