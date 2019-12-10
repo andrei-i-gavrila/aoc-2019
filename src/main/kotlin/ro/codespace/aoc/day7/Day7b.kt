@@ -7,7 +7,7 @@ import ro.codespace.aoc.day
 import ro.codespace.aoc.read
 
 
-class ProgramRunner(val program: Program) : Runnable {
+class ProgramRunner(val program: Program<Int>) : Runnable {
 
     override fun run() {
         program()
@@ -18,7 +18,7 @@ fun computeSignalInLoop(configuration: List<Int>, code: List<Int>): Int {
     println("Running phase order: $configuration")
 
     val readers = mutableListOf<InputReaderProvider>()
-    val outputFunctions = mutableListOf<(Int) -> Unit>()
+    val outputFunctions = mutableListOf<(String) -> Unit>()
     for (phase in configuration) {
         val reader = InputReaderProvider()
         reader.send(phase)
@@ -28,11 +28,11 @@ fun computeSignalInLoop(configuration: List<Int>, code: List<Int>): Int {
     for (i in configuration.indices) {
         if (i + 1 < readers.size) {
             outputFunctions.add {
-                readers[i + 1].send(it)
+                readers[i + 1].send(it.toInt())
             }
         } else {
             outputFunctions.add {
-                readers[0].send(it)
+                readers[0].send(it.toInt())
             }
         }
     }
@@ -48,7 +48,7 @@ fun computeSignalInLoop(configuration: List<Int>, code: List<Int>): Int {
     }
 
 
-    return runners.last().program.lastOutput
+    return runners.last().program.lastOutput.toInt()
 }
 
 fun main() {

@@ -16,7 +16,7 @@ fun computeSignal(configuration: List<Int>, code: List<Int>): Int {
         reader.send(signal)
         program()
 
-        signal = program.lastOutput
+        signal = program.lastOutput.toInt()
     }
     return signal
 }
