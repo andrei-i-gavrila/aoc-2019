@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation("com.google.guava:guava:28.1-jre")
+    compile group: 'org.processing', name: 'core', version: '3.3.7'
 
 }
 

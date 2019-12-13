@@ -2,7 +2,6 @@ package ro.codespace.aoc.day12
 
 import com.google.common.math.LongMath
 import ro.codespace.aoc.day
-import ro.codespace.aoc.day13.Moon
 
 fun <T> runUntilSame(moons: List<Moon>, extractor: (Moon) -> T): Long {
     val set = mutableSetOf<List<T>>()
@@ -15,7 +14,7 @@ fun <T> runUntilSame(moons: List<Moon>, extractor: (Moon) -> T): Long {
         }
         set.add(state)
 
-        ro.codespace.aoc.day13.runTick(moons)
+        runTick(moons)
         ticks++
     }
 
@@ -24,12 +23,12 @@ fun <T> runUntilSame(moons: List<Moon>, extractor: (Moon) -> T): Long {
 
 
 fun main() {
-    val moons = day("12").readLines().map { ro.codespace.aoc.day13.readMoon(it) }
+    val moons = day("12").readLines().map { readMoon(it) }
 
-    val tx = ro.codespace.aoc.day13.runUntilSame(moons.map { it.copy() }) { it.x to it.vx }
-    val ty = ro.codespace.aoc.day13.runUntilSame(moons.map { it.copy() }) { it.y to it.vy }
+    val tx = runUntilSame(moons.map { it.copy() }) { it.x to it.vx }
+    val ty = runUntilSame(moons.map { it.copy() }) { it.y to it.vy }
     val t = (tx * ty / LongMath.gcd(tx, ty))
-    val tz = ro.codespace.aoc.day13.runUntilSame(moons.map { it.copy() }) { it.z to it.vz }
+    val tz = runUntilSame(moons.map { it.copy() }) { it.z to it.vz }
 
     println(t * tz / LongMath.gcd(t, tz))
 }

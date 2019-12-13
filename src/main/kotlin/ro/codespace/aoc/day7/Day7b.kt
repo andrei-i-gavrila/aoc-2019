@@ -11,6 +11,7 @@ class ProgramRunner(val program: Program<Int>) : Runnable {
 
     override fun run() {
         program()
+        println("program done")
     }
 }
 

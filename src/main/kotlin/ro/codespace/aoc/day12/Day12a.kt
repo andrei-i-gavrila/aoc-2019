@@ -1,7 +1,6 @@
 package ro.codespace.aoc.day12
 
 import ro.codespace.aoc.day
-import ro.codespace.aoc.day13.Moon
 import kotlin.math.abs
 
 data class Moon(var x: Int, var y: Int, var z: Int) {
@@ -33,11 +32,11 @@ fun readMoon(line: String): Moon {
 }
 
 fun main() {
-    val moons = day("12").readLines().map { ro.codespace.aoc.day13.readMoon(it) }.onEach { println(it) }
+    val moons = day("12").readLines().map { readMoon(it) }.onEach { println(it) }
 
 
     repeat(1000) { tick ->
-        ro.codespace.aoc.day13.runTick(moons)
+        runTick(moons)
     }
 
     println(moons.sumBy { it.kineticEnergy * it.potentialEnergy })
