@@ -5,7 +5,7 @@ import ro.codespace.aoc.day
 import java.util.*
 
 fun main() {
-    val input = day("18test").readLines()
+    val input = day("18").readLines()
 
     val nodes = input.mapIndexed { y, row ->
         row.mapIndexed { x, c ->
@@ -17,64 +17,48 @@ fun main() {
     val positions = nodes.entries.filter { it.value.isLetter() || it.value == '@' }.map { it.value to it.key }.toMap()
 
     val dependencies = getDependencies(nodes, start)
-
     println(solve(nodes, positions, dependencies, positions.keys.count { it.isLowerCase() }))
 }
+
+data class Node(val keyChain: Set<Char>, val lastKey: Char)
 
 fun solve(
     nodes: Map<Vector2, Char>,
     positions: Map<Char, Vector2>,
     dependencies: Map<Char, Set<Char>>,
     keyCount: Int
-): Pair<Int, List<Char>> {
+): Int {
 
-    val startNode = ""
+    val startNode = Node(setOf(), '@')
     val times = mutableMapOf(startNode to 0)
-    val openQueue = PriorityQueue<Pair<String, Int>>(compareBy { it.second })
+    val openQueue = PriorityQueue<Pair<Node, Int>>(compareBy { it.second })
     openQueue.add(startNode to 0)
 
-    val prev = mutableMapOf<String, Char>()
-
-
-
     while (openQueue.isNotEmpty()) {
-        val (current, time) = openQueue.poll()
+        val (node, time) = openQueue.poll()
 
-        if (current.length == keyCount) {
-            val path = mutableListOf<Char>()
-            var currentPath = current
-            while (currentPath in prev) {
-                path.add(prev[currentPath]!!)
-                currentPath = (currentPath.toSet() - prev[currentPath]!!).sorted().joinToString("")
-            }
-            return time to path.reversed()
+        if (node.keyChain.size == keyCount) {
+            return time
         }
 
-        nextNodes(current, dependencies).forEach {
-            val nextNode = (current.toList() + it).sorted().joinToString("")
-            val prevPosition = if (current in prev) {
-                positions[prev[current]!!]!!
-            } else {
-                positions['@']!!
-            }
+        nextNodes(node.keyChain, dependencies).forEach {
 
-            val distanceToNode = times[current]!! + bestTime(nodes, prevPosition, positions[it]!!)
+            val distanceToNode = times[node]!! + bestTime(nodes, positions[node.lastKey]!!, positions[it]!!)
 
+            val nextNode = Node(node.keyChain + it, it)
 
             if (distanceToNode < times.getOrDefault(nextNode, Int.MAX_VALUE)) {
                 times[nextNode] = distanceToNode
-                prev[nextNode] = it
                 openQueue.add(nextNode to distanceToNode)
             }
         }
     }
-    return 0 to listOf()
+    return 0
 }
 
-fun nextNodes(current: String, dependencies: Map<Char, Set<Char>>): List<Char> {
-    val currentLetters = current.toSet()
+fun nextNodes(current: Set<Char>, dependencies: Map<Char, Set<Char>>): List<Char> {
     return dependencies.entries.filter {
-        currentLetters.containsAll(it.value) && it.key !in currentLetters
+        current.containsAll(it.value) && it.key !in current
     }.map { it.key }
 }
 
@@ -97,22 +81,6 @@ fun bestTime(nodes: Map<Vector2, Char>, from: Vector2, to: Vector2): Int {
         }
     }
     return -1
-}
-
-fun toposort(dependencies: Map<Char, Set<Char>>): List<List<Char>> {
-    val zeroNodes = mutableListOf<List<Char>>()
-    var degrees = dependencies.mapValues { it.value.toMutableSet() }
-    while (degrees.isNotEmpty()) {
-        println(degrees)
-        degrees.filterValues { it.isEmpty() }.keys.let {
-            zeroNodes.add(it.toList())
-        }
-        degrees = degrees.filterValues { it.isNotEmpty() }.mapValues {
-            it.value.minus(zeroNodes.last()).toMutableSet()
-        }
-    }
-
-    return zeroNodes
 }
 
 
@@ -141,5 +109,5 @@ fun getDependencies(nodes: Map<Vector2, Char>, start: Vector2): Map<Char, Set<Ch
         visited.remove(current)
     }
     dfs(start, mutableSetOf(), mutableSetOf())
-    return dependencies;
+    return dependencies
 }
