@@ -3,7 +3,6 @@ package ro.codespace.aoc.day20
 import ro.codespace.aoc.Vector2
 import ro.codespace.aoc.day
 import java.util.*
-import javax.xml.soap.Node
 
 fun main() {
     val input = day("20b").readLines().map {
